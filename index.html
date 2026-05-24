@@ -3,27 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Квіз: Моря та Океани</title>
+    <title>Супер-Квіз: Таємниці Океанів</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="quiz-container">
-        <div id="quiz-screen">
-            <h1 class="quiz-title">Моря та Океани</h1>
-            <div class="progress-bar">
-                <div id="progress" class="progress-fill"></div>
+        <!-- Стартове меню -->
+        <div id="start-screen" class="screen">
+            <h1 class="quiz-title">Таємниці Океанів</h1>
+            <p class="quiz-description">Перевір свої знання про водний світ планети! На тебе чекає 15 унікальних питань. На кожну відповідь є лише 25 секунд.</p>
+            <button id="start-btn" class="btn large-btn">Почати гру</button>
+        </div>
+
+        <!-- Екран гри -->
+        <div id="quiz-screen" class="screen hidden">
+            <div class="quiz-header">
+                <div class="progress-container">
+                    <span id="question-counter">Питання 1 з 15</span>
+                    <div class="progress-bar">
+                        <div id="progress" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div id="timer" class="timer-circle">25</div>
             </div>
-            <div id="question" class="question-text">Завантаження питання...</div>
+            
+            <div id="question" class="question-text">Завантаження...</div>
             <div id="options" class="options-container">
-                <!-- Варіанти відповідей додаватимуться через JS -->
+                <!-- Варіанти відповідей додаються через JS -->
             </div>
         </div>
 
-        <div id="result-screen" class="hidden">
-            <h2 class="result-title">Тест завершено!</h2>
-            <p class="result-text">Твій результат: <span id="score">0</span> з <span id="total-questions">0</span></p>
-            <button id="restart-btn" class="btn">Пройти знову</button>
+        <!-- Екран результатів -->
+        <div id="result-screen" class="screen hidden">
+            <h2 class="result-title">Гру завершено!</h2>
+            <p class="result-text">Твій підсумковий результат:</p>
+            <div class="score-badge"><span id="score">0</span> / <span id="total-questions">15</span></div>
+            <p id="result-comment" class="result-comment"></p>
+            <button id="restart-btn" class="btn">Грати знову</button>
         </div>
     </div>
 
