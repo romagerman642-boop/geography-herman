@@ -1,0 +1,127 @@
+/* Загальні стилі для сторінки */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f5f5f5;
+}
+
+/* Головний контейнер квізу */
+.quiz-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.quiz-title {
+    text-align: center;
+    margin-top: 0;
+    color: #4fc3f7;
+    font-size: 2rem;
+}
+
+/* Смуга прогресу */
+.progress-bar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 8px;
+    width: 100%;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background-color: #00e5ff;
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Текст питання */
+.question-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* Контейнер кнопок з відповідями */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Стилі для кнопок-варіантів */
+.option-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 14px 20px;
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+    background-color: rgba(79, 195, 247, 0.2);
+    border-color: #4fc3f7;
+    transform: translateY(-2px);
+}
+
+.option-btn:active {
+    transform: translateY(0);
+}
+
+/* Кнопка перезапуску */
+.btn {
+    background-color: #00b0ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0 auto;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background-color: #0091ea;
+}
+
+/* Класи для екрана результатів та перемикання */
+.hidden {
+    display: none;
+}
+
+#result-screen {
+    text-align: center;
+}
+
+.result-title {
+    color: #00e5ff;
+}
+
+.result-text {
+    font-size: 1.2rem;
+}
+
+#score {
+    font-weight: bold;
+    color: #00e5ff;
+    font-size: 1.5rem;
+}
