@@ -1,7 +1,7 @@
-/* Загальні налаштування сторінки та градієнтний фон у морському стилі */
+/* --- ОСНОВНІ СТИЛІ ТА ФОН --- */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
     color: #333;
     display: flex;
     justify-content: center;
@@ -10,110 +10,199 @@ body {
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
+    overflow: hidden; /* Щоб хвилі не створювали скроллбарів */
+    position: relative;
 }
 
-/* Контейнер квізу */
-.quiz-container {
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+/* Красивий анімований фон у вигляді океанських хвиль */
+.ocean {
+    height: 40%;
     width: 100%;
-    max-width: 600px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #01579b;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.wave {
+    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x;
+    position: absolute;
+    top: -198px;
+    width: 6400px;
+    height: 198px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+    top: -175px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -0.125s infinite;
+    opacity: 1;
+}
+
+/* --- КОНТЕЙНЕР КВІЗУ (КАРТКА) --- */
+.quiz-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    width: 100%;
+    max-width: 550px;
     text-align: center;
+    z-index: 10; /* Щоб картка була поверх фону */
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.6s ease-out; /* Анімація появи квізу */
 }
 
 h1 {
-    color: #1e3c72;
+    color: #0f2027;
     margin-top: 0;
-    font-size: 28px;
-}
-
-/* Прогрес-бар */
-.progress {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    font-size: 32px;
     letter-spacing: 1px;
 }
 
-/* Текст питання */
+.progress {
+    font-size: 13px;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
 .question {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 25px;
-    color: #222;
+    margin-bottom: 30px;
+    color: #111;
+    line-height: 1.4;
 }
 
-/* Блок з кнопками відповідей */
 .answers-block {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
-/* Стиль кнопок відповідей */
+/* --- КНОПКИ ВІДПОВІДЕЙ --- */
 .btn {
-    background-color: #f0f4f8;
-    border: 2px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 15px 20px;
+    background-color: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 20px;
     font-size: 16px;
     font-weight: 500;
+    color: #334155;
     cursor: pointer;
-    transition: all 0.2s ease;
     text-align: left;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Ефект наведення на кнопку */
+/* Анімація наведення */
 .btn:hover:not([disabled]) {
-    background-color: #e2e8f0;
-    border-color: #94a3b8;
+    background-color: #f8fafc;
+    border-color: #38bdf8;
+    color: #0369a1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
 }
 
-/* Стилі для правильної відповіді (зелений) */
+/* Ефект при натисканні */
+.btn:active:not([disabled]) {
+    transform: translateY(0);
+}
+
+/* Колір правильної відповіді із мікро-сплеском */
 .btn.correct {
-    background-color: #4ade80 !important;
-    border-color: #22c55e !important;
-    color: #fff;
+    background-color: #10b981 !important;
+    border-color: #059669 !important;
+    color: white !important;
+    animation: pulseCorrect 0.35s ease-in-out;
 }
 
-/* Стилі для неправильної відповіді (червоний) */
+/* Колір неправильної відповіді */
 .btn.wrong {
-    background-color: #f87171 !important;
-    border-color: #ef4444 !important;
-    color: #fff;
+    background-color: #ef4444 !important;
+    border-color: #dc2626 !important;
+    color: white !important;
+    animation: shake 0.4s ease-in-out;
 }
 
-/* Кнопка "Наступне питання" */
-.next-btn {
-    background-color: #ff9f43;
+/* --- КНОПКИ НАВІГАЦІЇ --- */
+.next-btn, .restart-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #0369a1 100%);
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 12px 30px;
+    border-radius: 10px;
+    padding: 14px 35px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 25px;
-    transition: background 0.2s;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
+    transition: all 0.2s ease;
     display: none;
 }
 
-.next-btn:hover {
-    background-color: #ee5253;
+.next-btn:hover, .restart-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(3, 105, 161, 0.5);
 }
 
-/* Екран результатів */
+.restart-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+}
+
 .results-score {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: 800;
     margin: 20px 0;
-    color: #1e3c72;
+    color: #0369a1;
 }
 
-/* Клас для ховання елементів */
+.feedback-msg {
+    font-size: 18px;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
 .hide {
-    display: none;
+    display: none !important;
+}
+
+/* --- ОПИС АНІМАЦІЙ (KEYFRAMES) --- */
+
+/* Рух хвиль */
+@keyframes wave {
+    0% { margin-left: 0; }
+    100% { margin-left: -1600px; }
+}
+@keyframes swell {
+    0%, 100% { transform: translate3d(0,-25px,0); }
+    50% { transform: translate3d(0,5px,0); }
+}
+
+/* Плавна поява картки */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Похитування кнопки при помилці */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+/* Пульсація правильної відповіді */
+@keyframes pulseCorrect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
 }
