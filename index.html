@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Continents & Oceans Quiz</title>
-    <!-- Підключаємо зовнішній файл зі стилями CSS -->
+    <title>Ultimate Continents & Oceans Quiz</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Анімований задній фон (хвилі) -->
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
     <div class="quiz-container">
         <!-- Екран гри -->
         <div id="quiz-screen">
-            <h1>Continents & Oceans Quiz</h1>
-            <div class="progress" id="progress">Question 1 of 5</div>
+            <h1>Continents & Oceans</h1>
+            <div class="progress" id="progress">Question 1 of 15</div>
             <div class="question" id="question-text">Question text goes here?</div>
             <div class="answers-block" id="answers-block">
-                <!-- Кнопки варіантів будуть створюватися через JavaScript -->
+                <!-- Кнопки створюються через JS -->
             </div>
             <button class="next-btn" id="next-button">Next Question</button>
         </div>
@@ -24,13 +29,12 @@
         <!-- Екран результатів -->
         <div id="results-screen" class="hide">
             <h1>Quiz Completed!</h1>
-            <div class="results-score" id="score-text">You scored 0 out of 0</div>
-            <p>Great job practicing your geography skills!</p>
-            <button class="next-btn" style="display: inline-block;" id="restart-button">Restart Quiz</button>
+            <div class="results-score" id="score-text">You scored 0 out of 15</div>
+            <p class="feedback-msg" id="feedback-msg">Awesome job!</p>
+            <button class="restart-btn" id="restart-button">Restart Quiz</button>
         </div>
     </div>
 
-    <!-- Підключаємо зовнішній файл із логікою JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
