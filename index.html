@@ -4,308 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Continents & Oceans Quiz</title>
-    <style>
-        /* --- СТИЛІ CSS --- */
-        
-        /* Загальні налаштування сторінки та красивий градієнтний фон у морському стилі */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* Контейнер квізу (картка по центру) */
-        .quiz-container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #1e3c72;
-            margin-top: 0;
-            font-size: 28px;
-        }
-
-        /* Прогрес-бар (показує яке зараз питання) */
-        .progress {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Текст самого питання */
-        .question {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: #222;
-        }
-
-        /* Блок з кнопками відповідей */
-        .answers-block {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* Стиль кнопок відповідей */
-        .btn {
-            background-color: #f0f4f8;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: left;
-        }
-
-        /* Ефект наведення на кнопку */
-        .btn:hover:not([disabled]) {
-            background-color: #e2e8f0;
-            border-color: #94a3b8;
-        }
-
-        /* Стилі для правильної та неправильної відповіді після кліку */
-        .btn.correct {
-            background-color: #4ade80 !important;
-            border-color: #22c55e !important;
-            color: #fff;
-        }
-
-        .btn.wrong {
-            background-color: #f87171 !important;
-            border-color: #ef4444 !important;
-            color: #fff;
-        }
-
-        /* Кнопка "Наступне питання" */
-        .next-btn {
-            background-color: #ff9f43;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: background 0.2s;
-            display: none; /* Схована за замовчуванням */
-        }
-
-        .next-btn:hover {
-            background-color: #ee5253;
-        }
-
-        /* Екран результатів */
-        .results-score {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #1e3c72;
-        }
-
-        /* Приховування елементів (використовується для перемикання екранів) */
-        .hide {
-            display: none;
-        }
-    </style>
+    <!-- Підключаємо зовнішній файл зі стилями CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- --- СТРУКТУРА HTML --- -->
     <div class="quiz-container">
-        <!-- Екран самої гри -->
+        <!-- Екран гри -->
         <div id="quiz-screen">
             <h1>Continents & Oceans Quiz</h1>
             <div class="progress" id="progress">Question 1 of 5</div>
             <div class="question" id="question-text">Question text goes here?</div>
             <div class="answers-block" id="answers-block">
-                <!-- Кнопки відповідей будуть створюватися динамічно через JavaScript -->
+                <!-- Кнопки варіантів будуть створюватися через JavaScript -->
             </div>
             <button class="next-btn" id="next-button">Next Question</button>
         </div>
 
-        <!-- Екран результатів (спочатку схований) -->
+        <!-- Екран результатів -->
         <div id="results-screen" class="hide">
             <h1>Quiz Completed!</h1>
             <div class="results-score" id="score-text">You scored 0 out of 0</div>
             <p>Great job practicing your geography skills!</p>
-            <button class="next-btn" style="display: inline-block;" onclick="restartQuiz()">Restart Quiz</button>
+            <button class="next-btn" style="display: inline-block;" id="restart-button">Restart Quiz</button>
         </div>
     </div>
 
-    <!-- --- ЛОГІКА JAVASCRIPT --- -->
-    <script>
-        // База даних з питаннями англійською мовою
-        const quizData = [
-            {
-                question: "Which is the largest continent on Earth by both area and population?",
-                answers: [
-                    { text: "Africa", correct: false },
-                    { text: "Asia", correct: true },
-                    { text: "North America", correct: false },
-                    { text: "Europe", correct: false }
-                ]
-            },
-            {
-                question: "Which ocean is the largest and deepest on our planet?",
-                answers: [
-                    { text: "Atlantic Ocean", correct: false },
-                    { text: "Indian Ocean", correct: false },
-                    { text: "Pacific Ocean", correct: true },
-                    { text: "Arctic Ocean", correct: false }
-                ]
-            },
-            {
-                question: "Which continent is completely covered by ice and has no permanent residents?",
-                answers: [
-                    { text: "Antarctica", correct: true },
-                    { text: "Australia", correct: false },
-                    { text: "South America", correct: false },
-                    { text: "Europe", correct: false }
-                ]
-            },
-            {
-                question: "Which ocean is located mostly in the Southern Hemisphere and surrounds Antarctica?",
-                answers: [
-                    { text: "Indian Ocean", correct: false },
-                    { text: "Southern Ocean", correct: true },
-                    { text: "Atlantic Ocean", correct: false },
-                    { text: "Arctic Ocean", correct: false }
-                ]
-            },
-            {
-                question: "Which is the smallest continent in the world, often called the 'island continent'?",
-                answers: [
-                    { text: "Europe", correct: false },
-                    { text: "South America", correct: false },
-                    { text: "Australia", correct: true },
-                    { text: "Africa", correct: false }
-                ]
-            }
-        ];
-
-        // Змінні для відстеження стану гри
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        // Пошук HTML елементів для керування ними
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultsScreen = document.getElementById('results-screen');
-        const progressElement = document.getElementById('progress');
-        const questionElement = document.getElementById('question-text');
-        const answersBlock = document.getElementById('answers-block');
-        const nextButton = document.getElementById('next-button');
-        const scoreTextElement = document.getElementById('score-text');
-
-        // Функція старту квізу
-        function startQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            quizScreen.classList.remove('hide');
-            resultsScreen.classList.add('hide');
-            showQuestion();
-        }
-
-        // Функція виведення поточного питання на екран
-        function showQuestion() {
-            resetState();
-            let currentQuestion = quizData[currentQuestionIndex];
-            
-            // Оновлюємо прогрес і текст питання
-            progressElement.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
-            questionElement.innerText = currentQuestion.question;
-
-            // Створюємо кнопки для кожної відповіді
-            currentQuestion.answers.forEach(answer => {
-                const button = document.createElement('button');
-                button.innerText = answer.text;
-                button.classList.add('btn');
-                
-                // Зберігаємо інформацію про те, чи правильна ця відповідь, прямо в кнопку
-                if (answer.correct) {
-                    button.dataset.correct = answer.correct;
-                }
-                
-                // Вішаємо подію кліку на кнопку
-                button.addEventListener('click', selectAnswer);
-                answersBlock.appendChild(button);
-            });
-        }
-
-        // Очищення перед наступним питанням (ховаємо кнопку "Next", видаляємо старі варіанти)
-        function resetState() {
-            nextButton.style.display = 'none';
-            while (answersBlock.firstChild) {
-                answersBlock.removeChild(answersBlock.firstChild);
-            }
-        }
-
-        // Функція, яка спрацьовує при виборі відповіді
-        function selectAnswer(e) {
-            const selectedButton = e.target;
-            const isCorrect = selectedButton.dataset.correct === 'true';
-
-            if (isCorrect) {
-                selectedButton.classList.add('correct');
-                score++;
-            } else {
-                selectedButton.classList.add('wrong');
-            }
-
-            // Блокуємо всі кнопки після кліку та підсвічуємо правильну, якщо користувач помилився
-            Array.from(answersBlock.children).forEach(button => {
-                if (button.dataset.correct === 'true') {
-                    button.classList.add('correct');
-                }
-                button.disabled = true;
-            });
-
-            // Показуємо кнопку переходу до наступного питання
-            nextButton.style.display = 'inline-block';
-        }
-
-        // Обробник натискання кнопки "Next"
-        nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        });
-
-        // Показ екрану фінальних результатів
-        function showResults() {
-            quizScreen.classList.add('hide');
-            resultsScreen.classList.remove('hide');
-            scoreTextElement.innerText = `You scored ${score} out of ${quizData.length}!`;
-        }
-
-        // Перезапуск гри
-        function restartQuiz() {
-            startQuiz();
-        }
-
-        // Автоматичний запуск гри при завантаженні сторінки
-        startQuiz();
-    </script>
+    <!-- Підключаємо зовнішній файл із логікою JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
