@@ -1,147 +1,208 @@
-// База даних з питаннями (англійською мовою)
-const quizData = [
-    {
-        question: "Which is the largest continent on Earth by both area and population?",
-        answers: [
-            { text: "Africa", correct: false },
-            { text: "Asia", correct: true },
-            { text: "North America", correct: false },
-            { text: "Europe", correct: false }
-        ]
-    },
-    {
-        question: "Which ocean is the largest and deepest on our planet?",
-        answers: [
-            { text: "Atlantic Ocean", correct: false },
-            { text: "Indian Ocean", correct: false },
-            { text: "Pacific Ocean", correct: true },
-            { text: "Arctic Ocean", correct: false }
-        ]
-    },
-    {
-        question: "Which continent is completely covered by ice and has no permanent residents?",
-        answers: [
-            { text: "Antarctica", correct: true },
-            { text: "Australia", correct: false },
-            { text: "South America", correct: false },
-            { text: "Europe", correct: false }
-        ]
-    },
-    {
-        question: "Which ocean is located mostly in the Southern Hemisphere and surrounds Antarctica?",
-        answers: [
-            { text: "Indian Ocean", correct: false },
-            { text: "Southern Ocean", correct: true },
-            { text: "Atlantic Ocean", correct: false },
-            { text: "Arctic Ocean", correct: false }
-        ]
-    },
-    {
-        question: "Which is the smallest continent in the world, often called the 'island continent'?",
-        answers: [
-            { text: "Europe", correct: false },
-            { text: "South America", correct: false },
-            { text: "Australia", correct: true },
-            { text: "Africa", correct: false }
-        ]
-    }
-];
-
-// Змінні стану гри
-let currentQuestionIndex = 0;
-let score = 0;
-
-// Отримуємо доступ до елементів HTML
-const quizScreen = document.getElementById('quiz-screen');
-const resultsScreen = document.getElementById('results-screen');
-const progressElement = document.getElementById('progress');
-const questionElement = document.getElementById('question-text');
-const answersBlock = document.getElementById('answers-block');
-const nextButton = document.getElementById('next-button');
-const scoreTextElement = document.getElementById('score-text');
-const restartButton = document.getElementById('restart-button');
-
-// Функція старту
-function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    quizScreen.classList.remove('hide');
-    resultsScreen.classList.add('hide');
-    showQuestion();
+/* --- ОСНОВНІ СТИЛІ ТА ФОН --- */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* Щоб хвилі не створювали скроллбарів */
+    position: relative;
 }
 
-// Показуємо питання
-function showQuestion() {
-    resetState();
-    let currentQuestion = quizData[currentQuestionIndex];
-    
-    progressElement.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
-    questionElement.innerText = currentQuestion.question;
-
-    currentQuestion.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-        
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
-        
-        button.addEventListener('click', selectAnswer);
-        answersBlock.appendChild(button);
-    });
+/* Красивий анімований фон у вигляді океанських хвиль */
+.ocean {
+    height: 40%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #01579b;
+    z-index: 1;
+    opacity: 0.6;
 }
 
-// Очищення блоку відповідей
-function resetState() {
-    nextButton.style.display = 'none';
-    while (answersBlock.firstChild) {
-        answersBlock.removeChild(answersBlock.firstChild);
-    }
+.wave {
+    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x;
+    position: absolute;
+    top: -198px;
+    width: 6400px;
+    height: 198px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
 }
 
-// Обробка вибору користувача
-function selectAnswer(e) {
-    const selectedButton = e.target;
-    const isCorrect = selectedButton.dataset.correct === 'true';
-
-    if (isCorrect) {
-        selectedButton.classList.add('correct');
-        score++;
-    } else {
-        selectedButton.classList.add('wrong');
-    }
-
-    // Блокуємо інші кнопки та підсвічуємо правильну
-    Array.from(answersBlock.children).forEach(button => {
-        if (button.dataset.correct === 'true') {
-            button.classList.add('correct');
-        }
-        button.disabled = true;
-    });
-
-    nextButton.style.display = 'inline-block';
+.wave:nth-of-type(2) {
+    top: -175px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -0.125s infinite;
+    opacity: 1;
 }
 
-// Логіка для кнопки "Next"
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < quizData.length) {
-        showQuestion();
-    } else {
-        showResults();
-    }
-});
-
-// Показ фінальних результатів
-function showResults() {
-    quizScreen.classList.add('hide');
-    resultsScreen.classList.remove('hide');
-    scoreTextElement.innerText = `You scored ${score} out of ${quizData.length}!`;
+/* --- КОНТЕЙНЕР КВІЗУ (КАРТКА) --- */
+.quiz-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    z-index: 10; /* Щоб картка була поверх фону */
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.6s ease-out; /* Анімація появи квізу */
 }
 
-// Кнопка перезапуску
-restartButton.addEventListener('click', startQuiz);
+h1 {
+    color: #0f2027;
+    margin-top: 0;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
 
-// Запуск при завантаженні файлу
-startQuiz();
+.progress {
+    font-size: 13px;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.question {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #111;
+    line-height: 1.4;
+}
+
+.answers-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* --- КНОПКИ ВІДПОВІДЕЙ --- */
+.btn {
+    background-color: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Анімація наведення */
+.btn:hover:not([disabled]) {
+    background-color: #f8fafc;
+    border-color: #38bdf8;
+    color: #0369a1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+}
+
+/* Ефект при натисканні */
+.btn:active:not([disabled]) {
+    transform: translateY(0);
+}
+
+/* Колір правильної відповіді із мікро-сплеском */
+.btn.correct {
+    background-color: #10b981 !important;
+    border-color: #059669 !important;
+    color: white !important;
+    animation: pulseCorrect 0.35s ease-in-out;
+}
+
+/* Колір неправильної відповіді */
+.btn.wrong {
+    background-color: #ef4444 !important;
+    border-color: #dc2626 !important;
+    color: white !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+/* --- КНОПКИ НАВІГАЦІЇ --- */
+.next-btn, .restart-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #0369a1 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.next-btn:hover, .restart-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(3, 105, 161, 0.5);
+}
+
+.restart-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+}
+
+.results-score {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 20px 0;
+    color: #0369a1;
+}
+
+.feedback-msg {
+    font-size: 18px;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+.hide {
+    display: none !important;
+}
+
+/* --- ОПИС АНІМАЦІЙ (KEYFRAMES) --- */
+
+/* Рух хвиль */
+@keyframes wave {
+    0% { margin-left: 0; }
+    100% { margin-left: -1600px; }
+}
+@keyframes swell {
+    0%, 100% { transform: translate3d(0,-25px,0); }
+    50% { transform: translate3d(0,5px,0); }
+}
+
+/* Плавна поява картки */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Похитування кнопки при помилці */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+/* Пульсація правильної відповіді */
+@keyframes pulseCorrect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
