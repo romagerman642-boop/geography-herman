@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Океанічний Квіз</title>
+    <title>Space Quiz Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="water-container"></div>
 
-    <div class="app-container">
-        <div id="start-screen">
-            <h1>Океанічний квіз</h1>
-            <p>Готовий підкорити морські глибини?</p>
-            <button id="start-btn">ПОГНАЛИ!</button>
-        </div>
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <h1>Mission: Mars Quiz</h1>
+            <div class="score-board">Score: <span id="score">0</span></div>
+        </header>
 
-        <div id="quiz-screen" class="hide">
-            <div class="header">
-                <span id="timer">Час: 25</span>
-                <span id="score-display">Бали: 0</span>
+        <main class="quiz-body">
+            <!-- Текстова заглушка замість картинки -->
+            <div class="quiz-visual-box">
+                <div class="mars-placeholder">🪐</div>
             </div>
-            <h2 id="question-text">Запитання...</h2>
-            <div id="answers-container"></div>
-        </div>
 
-        <div id="result-screen" class="hide">
-            <h2>Результат</h2>
-            <p class="result-text"></p>
-            <p>Твій рахунок: <span id="final-score">0</span></p>
-            <button id="restart-btn">СПРОБУВАТИ ЗНОВУ</button>
-        </div>
+            <h2 id="question">What is the nickname of Mars?</h2>
+
+            <div class="options-container">
+                <button class="option-btn">The Blue Planet</button>
+                <button class="option-btn correct">The Red Planet</button>
+                <button class="option-btn">The Golden Planet</button>
+                <button class="option-btn">The Ringed Planet</button>
+            </div>
+        </main>
+
+        <footer class="quiz-footer">
+            <button id="next-btn" class="control-btn">Next Question</button>
+        </footer>
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>
