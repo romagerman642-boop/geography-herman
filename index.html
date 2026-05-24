@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квіз: Моря та Океани</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div id="quiz-screen">
+            <h1 class="quiz-title">Моря та Океани</h1>
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+            <div id="question" class="question-text">Завантаження питання...</div>
+            <div id="options" class="options-container">
+                <!-- Варіанти відповідей додаватимуться через JS -->
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2 class="result-title">Тест завершено!</h2>
+            <p class="result-text">Твій результат: <span id="score">0</span> з <span id="total-questions">0</span></p>
+            <button id="restart-btn" class="btn">Пройти знову</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
