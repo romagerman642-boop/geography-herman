@@ -115,7 +115,7 @@ h1 {
     transform: translateY(0);
 }
 
-/* Колір правильної відповіді із мікро-сплеском */
+/* Колір правильної відповіді */
 .btn.correct {
     background-color: #10b981 !important;
     border-color: #059669 !important;
@@ -176,8 +176,6 @@ h1 {
 }
 
 /* --- ОПИС АНІМАЦІЙ (KEYFRAMES) --- */
-
-/* Рух хвиль */
 @keyframes wave {
     0% { margin-left: 0; }
     100% { margin-left: -1600px; }
@@ -186,21 +184,15 @@ h1 {
     0%, 100% { transform: translate3d(0,-25px,0); }
     50% { transform: translate3d(0,5px,0); }
 }
-
-/* Плавна поява картки */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-/* Похитування кнопки при помилці */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     20%, 60% { transform: translateX(-6px); }
     40%, 80% { transform: translateX(6px); }
 }
-
-/* Пульсація правильної відповіді */
 @keyframes pulseCorrect {
     0% { transform: scale(1); }
     50% { transform: scale(1.03); }
