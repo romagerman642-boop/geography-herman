@@ -234,7 +234,7 @@ function showResults() {
     }
 }
 
-restartButton.addEventListener('click', startQuiz);
+restartButton.addEventListener('click', щераз);
 
 // Запуск гри
-startQuiz();
+почати();
